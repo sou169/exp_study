@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Lectures - Study-Buddy</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #0b8457, #4caf50, #87d068);
+            color: white;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        h1, h2 {
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        /* Navbar styles */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.7);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .logo h2 {
+            margin: 0;
+        }
+
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .menu-toggle span {
+            width: 30px;
+            height: 3px;
+            background-color: #fff;
+            margin: 5px 0;
+            transition: all 0.3s ease;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+        }
+
+        nav ul li {
+            font-size: 18px;
+        }
+
+        nav ul a {
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        nav ul a:hover {
+            color: #87d068;
+        }
+
+        /* Dropdown menu for mobile */
+        nav ul.mobile-nav {
+            display: none;
+            flex-direction: column;
+            background-color: rgba(0, 0, 0, 0.8);
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            text-align: center;
+        }
+
+        nav ul.mobile-nav li {
+            margin: 20px 0;
+        }
+
+        .active .menu-toggle span:nth-child(1) {
+            transform: rotate(45deg) translateY(10px);
+        }
+
+        .active .menu-toggle span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .active .menu-toggle span:nth-child(3) {
+            transform: rotate(-45deg) translateY(-10px);
+        }
+
+        .active ul.mobile-nav {
+            display: flex;
+        }
+
+        /* Section and Grid */
+        section {
+            padding: 60px 20px;
+            text-align: left;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .lecture-category {
+            margin-bottom: 40px;
+        }
+
+        /* Lecture grid */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        /* Cards */
+        .card {
+            background: #0a6847;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .card h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .card a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .card iframe {
+            width: 100%;
+            height: 200px;
+            border: none;
+            margin-bottom: 10px;
+        }
+
+        footer {
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            nav ul {
+                display: none;
+            }
+
+            .menu-toggle {
+                display: flex;
+            }
+
+            nav ul.active {
+                display: flex;
+                flex-direction: column;
+                width: 100%;
+                position: absolute;
+                top: 60px;
+                left: 0;
+                background-color: rgba(0, 0, 0, 0.8);
+                padding: 10px 0;
+            }
+
+            nav ul.active li {
+                margin: 20px 0;
+            }
+        }
+        @media (max-width: 768px) {\n             nav ul {\n                 flex-direction: column;\n                  gap: 15px;\n                  }\n                  section h2 {font-size : 20px}\n                  .card h3 {font-size: 16px;}\n                   section {padding : 30px 10px;}\n\n        
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav>
+        <div class="logo">
+            <h2>Study-Buddy</h2>
+        </div>
+        <div class="menu-toggle" id="mobile-menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <ul class="desktop-nav">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="#it-lectures">IT Lectures</a></li>
+            <li><a href="#cs-lectures">Computer Science Lectures</a></li>
+            <li><a href="#ce-lectures">Civil Engineering Lectures</a></li>
+            <li><a href="study-material.html">Study Material</a></li>
+        </ul>
+        <ul class="mobile-nav" id="mobile-nav">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="#it-lectures">IT Lectures</a></li>
+            <li><a href="#cs-lectures">Computer Science Lectures</a></li>
+            <li><a href="#ce-lectures">Civil Engineering Lectures</a></li>
+            <li><a href="study-material.html">Study Material</a></li>
+        </ul>
+    </nav>
+
+    <!-- IT Lectures Section -->
+    <section id="it-lectures">
+        <h2>IT Lectures</h2>
+        <div class="grid">
+            <div class="card">
+                <h3>Analysis & Design of Algorithm (ADA)</h3>
+               <a href="https://youtube.com/playlist?list=PLxCzCOWd7aiHcmS4i14bI0VrMbZTUvlTa&si=BS6bbDluj8dkikPY" target="_blank">
+    <img src="https://img.youtube.com/vi/u8JZ9gU5o4g/hqdefault.jpg" alt="Analysis & Design of Algorithm Playlist Thumbnail" style="width:300px;height:auto;">
+</a>
+
+            </div>
+            <div class="card">
+                <h3>Computer Networks (CN)</h3>
+                <a href="https://youtube.com/playlist?list=PLftJ4X48yC1kLT_b-qf_XOmx9dBvPohZA&si=GWmvHTZ0Zzl86weg" target="_blank">
+    <img src="https://img.youtube.com/vi/IOlmoKb_BCo/hqdefault.jpg" alt="Computer Networks Thumbnail" style="width:300px;height:auto;">
+</a>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Computer Science Lectures Section -->
+    <section id="cs-lectures">
+        <h2>Computer Science Lectures</h2>
+        <div class="grid">
+            <div class="card">
+                <h3>Software Engineering (SE)</h3>
+                <a href="https://youtube.com/playlist?list=PLxCzCOWd7aiEed7SKZBnC6ypFDWYLRvB2&si=-H19xL7EPTj60b3x" target="_blank">
+    <img src="https://img.youtube.com/vi/uJpQlyT_CK4/hqdefault.jpg" alt="Software Engineering (SE) Playlist Thumbnail" style="width:300px;height:auto;">
+</a>
+
+            </div>
+            <div class="card">
+                <h3>Data Science with Python (DS)</h3>
+                <a href="https://youtube.com/playlist?list=PLO14KY9mobCIL_JvvY7kngksbDP-wvIRE&si=X6W6qu0RenrgrLps" target="_blank">
+    <img src="https://img.youtube.com/vi/-8Z1b6pLSOA/hqdefault.jpg" alt="Data Science with Python (DS) Playlist Thumbnail" style="width:300px;height:auto;">
+</a>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Civil Engineering Lectures Section -->
+    <section id="ce-lectures">
+        <h2>Civil Engineering Lectures</h2>
+        <div class="grid">
+            <div class="card">
+                <h3>Structural Analysis (SA)</h3>
+                <a href="https://youtube.com/playlist?list=PL9RcWoqXmzaJ_MDDo1KlkPoqg0tZgxEZY&si=9sCIf84M9RRpFOCy" target="_blank">
+    <img src="https://img.youtube.com/vi/2DgEnEuPPKo/hqdefault.jpg" alt="Structural Analysis (SA) Playlist Thumbnail" style="width:300px;height:auto;">
+</a>
+
+            </div>
+            <div class="card">
+                <h3>Transportation Engineering (TE)</h3>
+               <a href="https://youtube.com/playlist?list=PLjtQ3BMex7hvh7pPtjwPDV17J-WaDX7Tl&si=4rg246qI5GgK5LoF" target="_blank">
+    <img src="https://img.youtube.com/vi/fAyx0uZcCWg/hqdefault.jpg" alt="Transportation Engineering (TE) Playlist Thumbnail" style="width:300px;height:auto;">
+</a>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Study-Buddy. All rights reserved.</p>
+    </footer>
+
+    <script>
+        const menuToggle = document.getElementById('mobile-menu');
+        const nav = document.getElementById('mobile-nav');
+
+        menuToggle.addEventListener('click', () => {
+            nav.classList.toggle('active');
+            menuToggle.classList.toggle('active');
+        });
+    </script>
+
+</body>
+</html>

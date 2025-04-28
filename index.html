@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study-Buddy - Your Learning Companion</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #0b8457, #4caf50, #87d068);
+            color: white;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+            position: relative;
+        }
+        h1, h2, h3, p {
+            margin: 0;
+            padding: 0;
+        }
+        a {
+            text-decoration: none;
+            color: white;
+        }
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Navbar */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.7);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+        }
+        nav ul li {
+            font-size: 18px;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 80vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            text-align: center;
+            color: white;
+            padding: 20px;
+            position: relative;
+        }
+        .hero h1 {
+            font-size: 4rem;
+        }
+        .hero p {
+            font-size: 1.5rem;
+            margin-top: 10px;
+        }
+
+        /* Bubble Background */
+        .bubble {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+            filter: blur(8px);
+        }
+
+        /* Keyframes for bubble animation */
+        @keyframes float {
+            0% { transform: translatey(0); }
+            50% { transform: translatey(-20px); }
+            100% { transform: translatey(0); }
+        }
+
+        /* Create multiple bubbles */
+        .bubble:nth-child(1) { width: 100px; height: 100px; top: 10%; left: 10%; }
+        .bubble:nth-child(2) { width: 150px; height: 150px; top: 20%; right: 5%; }
+        /* .bubble:nth-child(3) { width: 120px; height: 120px; top: 40%; left: 20%; } */
+        .bubble:nth-child(4) { width: 180px; height: 180px; top: 60%; right: 15%; }
+        .bubble:nth-child(5) { width: 130px; height: 130px; bottom: 10%; left: 50%; }
+
+        /* Sections Styling */
+        section {
+            padding: 60px 20px;
+        }
+        section h2 {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 40px;
+            color: #fff;
+        }
+        section p {
+            font-size: 1.2rem;
+            text-align: center;
+            margin: 0 auto;
+            max-width: 700px;
+        }
+
+        /* About Section */
+        .about {
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+        .about img {
+            width: 400px;
+            height: auto;
+            border-radius: 10px;
+        }
+        .about .text {
+            max-width: 600px;
+            color: #fff;
+        }
+
+        /* Cards Section */
+        .cards {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .card {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 10px;
+            width: 300px;
+            padding: 20px;
+            color: #fff;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Footer */
+        footer {
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            text-align: center;
+        }
+
+        /* Login Modal Styles */
+        .login-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            display: none;
+        }
+        .login-modal.active {
+            display: flex;
+        }
+        .login-form {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 10px;
+            text-align: center;
+            color: #333;
+            width: 300px;
+        }
+        .login-form h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+        .login-form input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        .login-form button {
+            width: 100%;
+            padding: 12px;
+            background-color: #0b8457;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        /* Join Form Styles */
+        .join-form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .form-input {
+            width: 250px; /* Smaller width */
+            padding: 10px; /* Reduced padding */
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 1rem;
+            transition: border 0.3s ease, box-shadow 0.3s ease;
+            background-color: rgba(255, 255, 255, 0.8);
+        }
+
+        .form-input:focus {
+            outline: none;
+            border: 1px solid #4caf50; /* Green border on focus */
+            box-shadow: 0 0 5px rgba(76, 175, 80, 0.5); /* Subtle green glow */
+            animation: pulse 0.5s; /* Pulse effect */
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+
+        .form-button {
+            background-color: transparent; /* Minimalistic design */
+            color: #0b8457; /* Green text */
+            border: 2px solid #0b8457; /* Green border */
+            border-radius: 30px;
+            padding: 8px 16px; /* Smaller padding */
+            font-size: 1rem; /* Reduced font size */
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .form-button:hover {
+            background-color: #4caf50; /* Lighter green background on hover */
+            color: white; /* White text on hover */
+            transform: translateY(-3px); /* Slight lift effect */
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        .form-button:focus {
+            outline: none;
+            box-shadow: 0 0 5px rgba(76, 175, 80, 0.5); /* Subtle green glow on focus */
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {font-size: 3rem;}
+            .hero p {font-size: 1.2rem;}
+             nav ul { flex-direction: column; gap: 15px; }
+             .about {flex-direction: column;}
+             .about img { width: 100%; margin-bottom: 20px;}
+             .cards {flex-direction: column;}
+             .card { width: 100%;}
+             .card h3 {font-size: 1.2rem;}
+             .card p {font-size: 1rem;}
+             .join-form input, .join-form button {width: 100%;}
+              section h2 { font-size: 2rem; }
+               section p {font-size: 1rem;}
+               .form-input { width: 100%;}
+               .hero {
+                height: auto;
+               }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Bubbles -->
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+
+    <!-- Navbar -->
+    <nav>
+        <div class="logo">
+            <h2>Study-Buddy</h2>
+        </div>
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#help">Help</a></li>
+            <li><a href="study-material.html">Study Material</a></li>
+            <li><a href="video-lectures.html">Video Lectures</a></li>
+            <li><a href="#join">Join Us</a></li>
+            <li><a href="login.html" onclick="openLogin()">Log In</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <h1>Welcome to Study-Buddy</h1>
+        <p>Your Ultimate Learning Partner for Success!</p>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <img src="logo7.png" alt="Study Image">
+        <div class="text">
+            <h2>About Study-Buddy</h2>
+            <p>Study-Buddy is designed to provide students with access to the best study materials and video lectures to help them succeed in their academic journey. Join us to explore a world of learning, knowledge, and growth.</p>
+        </div>
+    </section>
+
+    <!-- Help Section -->
+    <section id="help">
+        <h2>Help & Support</h2>
+        <p>Need assistance? Our team is here to help you navigate through the platform and make the most of Study-Buddy’s offerings.</p>
+    </section>
+
+    <!-- Join Section -->
+    <section id="join" class="join-section">
+        <h2>Become a Study-Buddy Member</h2>
+        <p>Join Study-Buddy today and unlock access to exclusive materials, live lectures, and a vibrant student community.</p>
+        <center>
+            <form action="#"  class="join-form">
+                <input type="text" placeholder="Name" required class="form-input">
+                <input type="email" placeholder="Email" required class="form-input">
+                <input type="submit" value="Join Us" class="form-button">
+            </form>
+        </center>
+        <p>Contact us: <a href="mailto:studybuddy@gmail.com">studybuddy@gmail.com</a></p>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Study-Buddy. All rights reserved.</p>
+    </footer>
+
+    <!-- Login Modal -->
+    <div class="login-modal" id="loginModal">
+        <div class="login-form">
+            <h2>Log In</h2>
+            <input type="email" placeholder="Email" required>
+            <input type="password" placeholder="Password" required>
+            <button type="submit">Log In</button>
+            <button type="button" onclick="closeLogin()">Close</button>
+        </div>
+    </div>
+
+    <script>
+        function openLogin() {
+            document.getElementById('loginModal').classList.add('active');
+        }
+        function closeLogin() {
+            document.getElementById('loginModal').classList.remove('active');
+        }
+    </script>
+</body>
+</html>
