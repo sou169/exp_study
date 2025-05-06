@@ -1,39 +1,126 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Study-Buddy Login</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="admin.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register to Study-Buddy</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #0b8457, #4caf50, #87d068);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            color: white;
+        }
+
+        .container {
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            width: 350px;
+            text-align: center;
+        }
+
+        h2 {
+            color: #ffffff;
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            color: #ffffff;
+            margin-bottom: 5px;
+            font-size: 0.9em;
+        }
+
+        input[type="email"],
+        input[type="password"] {
+            width: calc(100% - 22px);
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 1em;
+            margin-top: 5px;
+            background-color: rgba(255, 255, 255, 0.8); 
+        }
+
+        .button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            width: 100%;
+            margin-top: 20px;
+            transition: background-color 0.3s;
+        }
+
+        .button:hover {
+            background-color: #45a049;
+        }
+
+        .link {
+            margin-top: 15px;
+            font-size: 0.9em;
+        }
+
+        .link a {
+            color: #a8e6cf;
+            text-decoration: none;
+            transition: text-decoration 0.3s;
+        }
+
+        .link a:hover {
+            text-decoration: underline;
+        }
+        .other-options a{
+            display: block;
+            margin: 10px 0;
+            color: #87d068;
+            text-decoration: none;
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <div class="login-container">
-      <div class="image-container">
-        <img src="logo.png" alt="Study-Buddy Logo">
-      </div>
-      <div class="form-container">
-        <h2>Login to Study-Buddy</h2>
-        <form id="login-form">
-          <div class="input-group">
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email" placeholder="Enter your email" required>
-          </div>
-          <div class="input-group">
-            <label for="password">Password</label>
-            <input type="password" id="password" name="password" placeholder="Enter your password" required>
-          </div>
-          <button type="submit">Login</button>
-          <div class="other-options">
-            <a href="#">Forgot Password?</a>
-            <a href="register.html">Create Account</a>
-          </div>
+    <div class="container">
+        <h2>Register to Study-Buddy</h2>
+        <form>
+            <div class="input-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="input-group">
+                <label for="password">Enter Password</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <div class="input-group">
+                <label for="confirm_password">Confirm Password</label>
+                <input type="password" id="confirm_password" name="confirm_password" required>
+            </div>
+            <button type="submit" class="button">Register</button>
         </form>
-      </div>
+        <div class="link">
+            Already have an account? <a href="login.html">Log In</a>
+        </div>
+        <div class="other-options">
+           <a href="forgot_password.html">Forgot Password?</a>
+        </div>
     </div>
-  </div>
+<script src="admin.js"></script>
 
-  <script src="admin.js"></script>
 </body>
 </html>
