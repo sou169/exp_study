@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -13,8 +14,11 @@
             color: white;
             display: flex;
             justify-content: center;
-            align-items: center;
-            height: 100vh;
+        }
+        .email-error {
+            color: red;
+            font-size: 0.9em;
+            display: none; /* Initially hidden */
             margin: 0;
         }
         .login-container {
@@ -60,7 +64,7 @@
         <h2>Login to Study-Buddy</h2>
         <form id="loginForm" method="POST" action="/login">
             <input type="email" name="email" id="email" placeholder="Email" required autocomplete="email">
- <input type="password" name="password" id="password" placeholder="Password" required autocomplete="current-password">
+            <span class="email-error"></span><input type="password" name="password" id="password" placeholder="Password" required autocomplete="current-password">
             <button type="submit">Log In</button>
         </form>
         <a href="register.html">Register</a>
@@ -69,9 +73,31 @@
     <script>
         const loginForm = document.getElementById("loginForm");
 
-        loginForm.addEventListener("submit", async function(event) { // Fix 1: Ensure this function's body is closed correctly
-            event.preventDefault(); // Fix 2: Ensure all try/catch blocks are properly nested and closed
+        // Get references to email input and error span
+        const emailInput = document.getElementById("email");
+        const emailErrorSpan = document.querySelector(".email-error");
 
+        // Function to validate email format
+        function validateEmailFormat(email) {
+            // Basic email format regex
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+
+        // Event listener for email input (e.g., on blur or input)
+        emailInput.addEventListener("input", function() {
+            if (emailInput.value.trim() === "") {
+                emailErrorSpan.style.display = "none";
+            } else if (!validateEmailFormat(emailInput.value)) {
+                emailErrorSpan.textContent = "Invalid email format";
+                emailErrorSpan.style.display = "block";
+            } else {
+                emailErrorSpan.style.display = "none"; // Hide if format is valid
+            }
+        });
+
+        loginForm.addEventListener("submit", async function(event) { // Fix 1: Ensure this function's body is closed correctly
+            event.preventDefault();
             const email = document.getElementById("email").value;
             const password = document.getElementById("password").value;
 
@@ -84,31 +110,24 @@
                     body: JSON.stringify({ email, password }),
                 });
 
-                const data = await response.json();
-                console.log('Response received:', response); // Log the response object
-                console.log('Data received:', data); // Log the data object
-
+                console.log('Response status:', response.status); // Add console log for status
+                const responseData = await response.json(); // Use a different variable name to avoid conflict
+                console.log('Data received:', responseData); // Log the data object
+                emailErrorSpan.style.display = "none"; // Hide previous errors on new submission attempt
                 if (response.ok) {
                     console.log('Login successful, attempting redirect...');
                     localStorage.setItem('isLoggedIn', 'true');
                     window.location.href = 'index.html';
-                } 
-                 else {
-                    console.log('Login failed:', data.message); // Log specific error message
-                    Swal.fire({
-                        icon: "error",
-                        title: "Login Failed",
-                        text: data.message || "Invalid email or password!" // Use message from backend if available
-                    });
-                 }
+                } else {
+                    console.log('Login failed:', responseData.message); // Log specific error message
+                    emailErrorSpan.textContent = responseData.message || 'Login failed'; // Display backend message
+                    emailErrorSpan.style.display = 'block'; // Show the error message
+                }
             }
-             catch (error) { // This catch block should correspond to the try block for the fetch request
+            catch (error) {
                 console.error('Error during login:', error); // Log the full error object
-                Swal.fire({
-                    icon: "error",
-                    title: "Error",
-                    text: "An error occurred during login. Please try again." // Generic message for frontend errors
-                });
+                emailErrorSpan.textContent = 'An error occurred during login. Please try again.'; // Generic message for frontend errors
+                emailErrorSpan.style.display = 'block'; // Show the error message
             } 
         }); // Fix 1: Closing the event listener function
     </script>

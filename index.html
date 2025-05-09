@@ -6,6 +6,11 @@
     <title>Study-Buddy - Your Learning Companion</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
+        .email-error {
+            color: red;
+            font-size: 0.9em;
+            display: none; /* Initially hidden */
+        }
         /* General Styles */
         body {
             font-family: 'Poppins', sans-serif;
@@ -333,7 +338,8 @@
         <center>
             <form action="#"  class="join-form">
                 <input type="text" placeholder="Name" required class="form-input" id="join-name">
-                <input type="email" placeholder="Email" required class="form-input">
+                <input type="email" placeholder="Email" required class="form-input" id="join-email">
+                <span class="email-error"></span>
                 <input type="submit" value="Join Us" class="form-button">
             </form>
         </center>
@@ -421,6 +427,19 @@
 
                 const name = nameInput.value;
                 const email = emailInput.value;
+                const emailErrorSpan = joinForm.querySelector('.email-error');
+
+                // Frontend email format validation
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Basic email format regex
+
+                if (!emailRegex.test(email)) {
+                    emailErrorSpan.textContent = 'Invalid email format';
+                    emailErrorSpan.style.display = 'block';
+                    return; // Stop the form submission
+                }else {
+                    emailErrorSpan.textContent = ''; // Clear error message
+                    emailErrorSpan.style.display = 'none'; // Hide error span
+                }
 
                 // Simple client-side validation
                 if (!name || !email) {
@@ -446,8 +465,14 @@
                         // emailInput.value = '';
                     } else {
                          // Handle potential server-side validation errors or other issues
-                         alert(data.message || 'An error occurred during submission.');
+                         if (data.message) {
+                             emailErrorSpan.textContent = data.message; // Display backend error message
+                             emailErrorSpan.style.display = 'block';
+                         } else {
+                            alert('An error occurred during submission.');
+                         }
                          console.error('Join form submission failed:', data);
+                         emailErrorSpan.style.display = 'none'; // Hide in case of generic error
                     }
                 } catch (error) {
                     alert('An error occurred during submission. Please try again.');
