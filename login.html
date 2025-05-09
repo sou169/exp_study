@@ -98,8 +98,6 @@
                 console.log('Data received:', responseData); // Log the data object
                 emailErrorSpan.style.display = "none"; // Hide previous errors on new submission attempt
                 if (response.ok) {
-                    console.log('Login successful, attempting redirect...');
-                    localStorage.setItem('isLoggedIn', 'true');
                     window.location.replace('index.html');
                 } else { 
                     console.log('Login failed:', responseData.message); // Log specific error message
@@ -109,7 +107,6 @@
             }
             catch (error) {
                 console.error('Error during login:', error); // Log the full error object
-                emailErrorSpan.textContent = 'An error occurred during login. Please try again.'; // Generic message for frontend errors
                 emailErrorSpan.style.display = 'block'; // Show the error message
             } 
         });
