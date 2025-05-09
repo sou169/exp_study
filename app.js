@@ -41,7 +41,9 @@ function isAuthenticated(req, res, next) {
   if (isLoggedIn) {
     next(); // User is authenticated, proceed to the next middleware or route handler
   } else {
- res.redirect('/login.html'); // User is not authenticated, redirect to login page
+    res.redirect('/login.html'); // User is not authenticated, redirect to login page
+  }
+}
 
 app.get('/', isAuthenticated, (req, res) => {
   res.sendFile(__dirname + '/public/index.html');
@@ -51,7 +53,7 @@ app.get('/index.html', isAuthenticated, (req, res) => {
   res.sendFile(__dirname + '/public/index.html');
 });
 
-app.get('/study-material.html', isAuthenticated, (req, res) => {
+app.get('/study-material.html', isAuthenticated, (req, res) => { // Corrected a missing closing curly brace for the isAuthenticated function
   res.sendFile(__dirname + '/public/study-material.html');
 });
 
@@ -60,16 +62,16 @@ app.get('/video-lectures.html', isAuthenticated, (req, res) => {
 });
 
 
-
-
-// Serve static files from the 'public' directory
-// This should come after the protected routes to avoid bypassing them
 app.use(express.static('public'));
 
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
   }
 });
+
+// Serve static files from the 'public' directory
+// This should come after the protected routes to avoid bypassing them
+app.use(express.static('public'));
 
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
