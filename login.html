@@ -109,9 +109,13 @@
                 console.log(response);
                 console.log('response.ok:', response.ok);
                 console.log('Response status:', response.status);
+
+                // Add these lines for the plain text response test:
+                const responseText = await response.text();
+                console.log('Response text received:', responseText);
                 // const responseText = await response.text();
                 // const responseData = JSON.parse(responseText);
-                console.log('Data received:', responseData);
+                // console.log('Data received:', responseData);
                 // if (response.ok) {
                 //     debugger; // PAUSE EXECUTION AFTER JSON PARSING
                 //     console.log('Login successful, attempting redirect...');
