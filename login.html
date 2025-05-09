@@ -100,21 +100,17 @@
                 console.log('response.ok:', response.ok);
                 console.log('Response status:', response.status);
 
-                // You can switch back to JSON handling here if the text test works
-                const responseText = await response.text();
-                console.log('Response text received:', responseText);
-
-                // If the text test works, you can uncomment and use the JSON parsing and redirection here:
-                // const responseData = JSON.parse(responseText);
-                // console.log('Data received:', responseData);
-                // if (response.ok) {
-                //     console.log('Login successful, attempting redirect...');
-                //     console.log('Before redirect');
-                //     localStorage.setItem('isLoggedIn', 'true'); // Set login status
-                //     window.location.href = 'index.html';
-                // } else {
-                //     console.log('Login failed:', responseData.message);
-                // }
+                // Re-enable JSON parsing and redirection
+                const responseData = await response.json();
+                console.log('Data received:', responseData);
+                if (response.ok) {
+                    console.log('Login successful, attempting redirect...');
+                    console.log('Before redirect');
+                    localStorage.setItem('isLoggedIn', 'true'); // Set login status
+                    window.location.href = 'index.html';
+                } else {
+                    console.log('Login failed:', responseData.message);
+                }
 
 
             } catch (error) {
