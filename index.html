@@ -366,61 +366,97 @@
     </script>
 
     <script>
-        // This script ensures the navigation links are correctly displayed on page load
-        // based on the login status.
-        const isLoggedInOnInit = localStorage.getItem('isLoggedIn') === 'true';
-        updateNavLinks(isLoggedInOnInit);
-    </script>
-    <script>
+        // This script handles navigation link visibility based on login status
+        // and the join form submission.
         const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
         const logoutLink = document.getElementById('logout-link');
         const loginLink = document.querySelector('a[href="login.html"]').parentElement;
         const signupLink = document.querySelector('a[href="register.html"]').parentElement;
-
+        // Assuming study material and video lectures links also need to be handled
+        // const studyMaterialLink = document.querySelector('a[href="study-material.html"]').parentElement;
+        // const videoLecturesLink = document.querySelector('a[href="video-lectures.html"]').parentElement;
 
         // Function to update navigation links visibility
         function updateNavLinks(loggedIn) {
             if (loggedIn) {
-            logoutLink.style.display = 'list-item';
-            loginLink.style.display = 'none';
-            signupLink.style.display = 'none';
-        } else {
-            logoutLink.style.display = 'none';
-            loginLink.style.display = 'list-item';
-            signupLink.style.display = 'list-item';
-        }
-        }
-
-        logoutLink.addEventListener('click', function(event) {
-            event.preventDefault();
-            localStorage.removeItem('isLoggedIn');
-            window.location.href = 'login.html';
-        });
-
-        const joinForm = document.querySelector('.join-form');
-        joinForm.addEventListener('submit', async function(event) {
-            event.preventDefault();
-
-            const nameInput = joinForm.querySelector('#join-name');
-            const emailInput = joinForm.querySelector('input[type="email"]');
-
-            const name = nameInput.value;
-            const email = emailInput.value;
-
-            try {
-                const response = await fetch('/joinus', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ name, email })
-                });
-                const data = await response.json();
-                alert(data.message);
-            } catch (error) {
-                alert('An error occurred. Please try again.');
+                logoutLink.style.display = 'list-item';
+                loginLink.style.display = 'none';
+                signupLink.style.display = 'none';
+                // studyMaterialLink.style.display = 'list-item'; // Show if needed
+                // videoLecturesLink.style.display = 'list-item'; // Show if needed
+            } else {
+                logoutLink.style.display = 'none';
+                loginLink.style.display = 'list-item';
+                signupLink.style.display = 'list-item';
+                // studyMaterialLink.style.display = 'none'; // Hide if needed
+                // videoLecturesLink.style.display = 'none'; // Hide if needed
             }
+        }
+
+        // Call the function on page load
+        updateNavLinks(isLoggedIn);
+
+        // Event listener for the logout link
+        logoutLink.addEventListener('click', function(event) {
+            event.preventDefault(); // Prevent the default link behavior
+            localStorage.removeItem('isLoggedIn'); // Remove the login status
+            window.location.href = 'login.html'; // Redirect to the login page
         });
+
+        // Event listener for the join form submission
+        const joinForm = document.querySelector('.join-form');
+        if (joinForm) { // Check if the form exists to avoid errors
+            joinForm.addEventListener('submit', async function(event) {
+                event.preventDefault();
+
+                const nameInput = joinForm.querySelector('#join-name');
+                const emailInput = joinForm.querySelector('input[type="email"]');
+
+                // Basic validation
+                if (!nameInput || !emailInput) {
+                    console.error('Join form inputs not found.');
+                    alert('Form inputs missing. Please check the form structure.');
+                    return;
+                }
+
+                const name = nameInput.value;
+                const email = emailInput.value;
+
+                // Simple client-side validation
+                if (!name || !email) {
+                    alert('Please fill in both name and email.');
+                    return;
+                }
+
+                try {
+                    const response = await fetch('/joinus', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ name, email })
+                    });
+
+                    const data = await response.json();
+
+                    if (response.ok) {
+                        alert(data.message);
+                        // Optionally clear the form after successful submission
+                        // nameInput.value = '';
+                        // emailInput.value = '';
+                    } else {
+                         // Handle potential server-side validation errors or other issues
+                         alert(data.message || 'An error occurred during submission.');
+                         console.error('Join form submission failed:', data);
+                    }
+                } catch (error) {
+                    alert('An error occurred during submission. Please try again.');
+                    console.error('Join form fetch error:', error);
+                }
+            });
+        } else {
+             console.warn('Join form not found on the page.');
+        }
     </script>
 </body>
 </html>
