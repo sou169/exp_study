@@ -113,6 +113,7 @@
 
                 console.log('Data received:', responseData);
                 if (response.ok) {
+                    debugger; // PAUSE EXECUTION AFTER JSON PARSING
                     console.log('Login successful, attempting redirect...');
                     console.log('Before redirect');
                     localStorage.setItem('isLoggedIn', 'true'); // Set login status
