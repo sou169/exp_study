@@ -33,8 +33,18 @@ mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('MongoDB connected successfully'))
   .catch(err => console.error('MongoDB connection error:', err));
 
-app.get('/', (req, res) => {
-  res.send('Hello, Study-Buddy!');
+// Middleware to check authentication
+function isAuthenticated(req, res, next) {
+  // For now, this is a placeholder.
+  // In a real application, you would check for a valid session or token.
+  // Since we're using localStorage on the frontend, we'll simulate a check.
+  // The frontend needs to send an indicator (e.g., a header) for protected pages.
+  const isLoggedIn = req.headers['x-is-logged-in'] === 'true'; // Example check for a custom header
+  if (isLoggedIn) {
+    next(); // User is authenticated, proceed to the next middleware or route handler
+  } else {
+    res.redirect('/login.html'); // User is not authenticated, redirect to login page
+  }
 });
 
 app.listen(port, () => {
