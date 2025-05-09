@@ -73,6 +73,7 @@
     <script>
         console.log('Script started');
         const loginForm = document.getElementById("loginForm");
+        console.log('Form element found:', loginForm);
 
         // Get references to email input and error span
         const emailInput = document.getElementById("email");
@@ -98,6 +99,7 @@
         });
 
         loginForm.addEventListener("submit", async function(event) { // Fix 1: Ensure this function's body is closed correctly
+            console.log('Submit event triggered.');
             event.preventDefault();
             const email = document.getElementById("email").value;
             const password = document.getElementById("password").value;
