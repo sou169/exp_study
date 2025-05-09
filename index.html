@@ -301,6 +301,7 @@
             <li><a href="video-lectures.html">Video Lectures</a></li>
             <li><a href="login.html">Log In</a></li>
             <li><a href="register.html">Sign Up</a></li>
+ <li id="logout-link" style="display: none;"><a href="#">Logout</a></li>
         </ul>
     </nav>
 
@@ -331,7 +332,7 @@
         <p>Join Study-Buddy today and unlock access to exclusive materials, live lectures, and a vibrant student community.</p>
         <center>
             <form action="#"  class="join-form">
-                <input type="text" placeholder="Name" required class="form-input">
+                <input type="text" placeholder="Name" required class="form-input" id="join-name">
                 <input type="email" placeholder="Email" required class="form-input">
                 <input type="submit" value="Join Us" class="form-button">
             </form>
@@ -362,6 +363,53 @@
         function closeLogin() {
             document.getElementById('loginModal').classList.remove('active');
         }
+    </script>
+    <script>
+        const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+        const logoutLink = document.getElementById('logout-link');
+        const loginLink = document.querySelector('a[href="login.html"]').parentElement;
+        const signupLink = document.querySelector('a[href="register.html"]').parentElement;
+        const studyMaterialLink = document.querySelector('a[href="study-material.html"]').parentElement;
+        const videoLecturesLink = document.querySelector('a[href="video-lectures.html"]').parentElement;
+
+        if (isLoggedIn) {
+            logoutLink.style.display = 'list-item';
+            loginLink.style.display = 'none';
+            signupLink.style.display = 'none';
+        } else {
+            logoutLink.style.display = 'none';
+        }
+
+        logoutLink.addEventListener('click', function(event) {
+            event.preventDefault();
+            localStorage.removeItem('isLoggedIn');
+            window.location.href = 'login.html';
+        });
+
+        const joinForm = document.querySelector('.join-form');
+        joinForm.addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            const nameInput = joinForm.querySelector('#join-name');
+            const emailInput = joinForm.querySelector('input[type="email"]');
+
+            const name = nameInput.value;
+            const email = emailInput.value;
+
+            try {
+                const response = await fetch('/joinus', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ name, email })
+                });
+                const data = await response.json();
+                alert(data.message);
+            } catch (error) {
+                alert('An error occurred. Please try again.');
+            }
+        });
     </script>
 </body>
 </html>

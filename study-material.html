@@ -222,10 +222,12 @@
         </div>
         <ul class="desktop-nav">
             <li><a href="index.html">Home</a></li>
-            <li><a href="#past-papers">Past Papers</a></li>
-            <li><a href="#books">Books</a></li>
-            <li><a href="#notes">Notes</a></li>
-            <li><a href="video-lectures.html">Video Lectures</a></li>
+            <li class="logged-in-only" style="display: none;"><a href="#past-papers">Past Papers</a></li>
+            <li class="logged-in-only" style="display: none;"><a href="#books">Books</a></li>
+            <li class="logged-in-only" style="display: none;"><a href="#notes">Notes</a></li>
+            <li class="logged-in-only" style="display: none;"><a href="video-lectures.html">Video Lectures</a></li>
+            <li id="logout-link-desktop" style="display: none;"><a href="#">Logout</a></li>
+
         </ul>
         <ul class="mobile-nav" id="mobile-nav">
             <li><a href="index.html">Home</a></li>

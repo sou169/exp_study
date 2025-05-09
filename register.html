@@ -104,7 +104,9 @@
                 <input type="email" id="email" name="email" required>
             </div>
             <div class="input-group">
-                <label for="password">Enter Password</label>
+ <label for="name">Name</label>
+                <input type="text" id="name" name="name" required>
+ <label for="password">Enter Password</label>
                 <input type="password" id="password" name="password" required>
             </div>
             <div class="input-group">
@@ -120,7 +122,51 @@
            <a href="forgot_password.html">Forgot Password?</a>
         </div>
     </div>
-<script src="admin.js"></script>
+
+    <script>
+        const registrationForm = document.querySelector('form');
+
+        registrationForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirm_password').value;
+
+            if (password !== confirmPassword) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Password Mismatch',
+                    text: 'The password and confirm password fields do not match.'
+                });
+                return;
+            }
+
+            try {
+                const response = await fetch('/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ name, email, password })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    Swal.fire('Success', data.message, 'success').then(() => {
+                        window.location.href = 'login.html';
+                    });
+                } else {
+                    Swal.fire('Error', data.message, 'error');
+                }
+            } catch (error) {
+                console.error('Error during registration:', error);
+                Swal.fire('Error', 'An error occurred during registration.', 'error');
+            }
+        });
+    </script>
 
 </body>
 </html>

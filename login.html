@@ -59,23 +59,37 @@
     <div class="login-container">
         <h2>Login to Study-Buddy</h2>
         <form id="loginForm" method="POST" action="#">
-            <input type="email" name="email" id="email" placeholder="Email" required>
-            <input type="password" name="password" id="password" placeholder="Password" required>
+            <input type="email" name="email" id="email" placeholder="Email" required autocomplete="email">
+ <input type="password" name="password" id="password" placeholder="Password" required autocomplete="current-password">
             <button type="submit">Log In</button>
         </form>
         <a href="register.html">Register</a>
         <a href="forgot_password.html">Forgot Password?</a>
     </div>
     <script>
-        document.getElementById("loginForm").addEventListener("submit", function(event) {
-            event.preventDefault(); 
+ const loginForm = document.getElementById("loginForm");
 
-            const email = document.getElementById("email").value;
-            const password = document.getElementById("password").value;
+ loginForm.addEventListener("submit", async function(event) {
+ event.preventDefault();
 
-            if (email === "admin@gmail.com" && password === "123456") {
-                window.location.href = "index.html"; 
-            } else {
+ const email = document.getElementById("email").value;
+ const password = document.getElementById("password").value;
+
+ try {
+ const response = await fetch('/login', {
+ method: 'POST',
+ headers: {
+ 'Content-Type': 'application/json',
+ },
+ body: JSON.stringify({ email, password }),
+ });
+
+ const data = await response.json();
+
+ if (response.ok) {
+ localStorage.setItem('isLoggedIn', 'true');
+ window.location.href = 'index.html';
+ } else {
                 Swal.fire({
                     icon: "error",
                     title: "Login Failed",
@@ -83,6 +97,15 @@
                 });
             }
         });
+ } catch (error) {
+ console.error('Error during login:', error);
+ Swal.fire({
+ icon: "error",
+ title: "Error",
+ text: "An error occurred during login."
+ });
+ }
+ });
     </script>
 </body>
 </html>
