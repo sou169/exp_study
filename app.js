@@ -49,7 +49,7 @@ app.get('/', isAuthenticated, (req, res) => {
   res.sendFile(__dirname + '/public/index.html');
 });
 
-app.get('/index.html', isAuthenticated, (req, res) => {
+app.get('/index.html', (req, res) => {
   res.sendFile(__dirname + '/public/index.html');
 });
 
