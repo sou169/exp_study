@@ -68,7 +68,6 @@
             <input type="email" name="email" id="email" placeholder="Email" required autocomplete="email">
             <input type="password" name="password" id="password" placeholder="Password" required autocomplete="current-password">
             <button type="submit">Log In</button>
- <button type="button" id="loginButton">Log In</button>
         </form>
         <a href="register.html">Register</a>
         <a href="forgot_password.html">Forgot Password?</a>
@@ -129,11 +128,6 @@
         });
         console.log('Event listener attached.');
 
-        loginButton.addEventListener("click", function(event) {
- console.log('Login button clicked');
- event.preventDefault(); // Prevent the default button click behavior
- loginForm.submit(); // Manually trigger the form submission
-        });
     </script>
 </body>
 </html>
