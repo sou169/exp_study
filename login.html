@@ -98,6 +98,7 @@
             }
         });
 
+
         loginForm.addEventListener("submit", async function(event) { // Fix 1: Ensure this function's body is closed correctly
             console.log('Submit event triggered.');
             event.preventDefault();
@@ -135,6 +136,7 @@
                 emailErrorSpan.style.display = 'block'; // Show the error message
             } 
         }); // Fix 1: Closing the event listener function
+        console.log('Event listener attached.');
     </script>
 </body>
 </html>
