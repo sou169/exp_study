@@ -78,19 +78,9 @@
         const loginForm = document.getElementById("loginForm");
         console.log('Form element found:', loginForm);
 
-        // Add a click listener to the button
-        const loginButton = loginForm.querySelector('button[type="submit"]');
-        loginButton.addEventListener("click", function(event) {
-            console.log('Button click event triggered');
-            event.preventDefault(); // Prevent the default button click behavior
-
-            // Programmatically submit the form
-            loginForm.submit();
-        });
-
-
-        loginForm.addEventListener("submit", async function(event) {
-            debugger; // PAUSE EXECUTION HERE - Still useful for debugging
+        // Move login logic to the button click listener
+        const loginButton = loginForm.querySelector('button[type="submit"]'); // Get the submit button
+        loginButton.addEventListener("click", async function(event) { // Make the click listener async
             console.log('Submit event triggered');
 
             event.preventDefault(); // Prevent the default form submission - This is still important!
@@ -110,21 +100,18 @@
                 console.log('response.ok:', response.ok);
                 console.log('Response status:', response.status);
 
-                // Add these lines for the plain text response test:
-                const responseText = await response.text();
-                console.log('Response text received:', responseText);
-                // const responseText = await response.text();
-                // const responseData = JSON.parse(responseText);
-                // console.log('Data received:', responseData);
-                // if (response.ok) {
-                //     debugger; // PAUSE EXECUTION AFTER JSON PARSING
-                //     console.log('Login successful, attempting redirect...');
-                //     console.log('Before redirect');
-                //     localStorage.setItem('isLoggedIn', 'true'); // Set login status
-                //     window.location.href = 'index.html';
-                // } else {
-                //     console.log('Login failed:', responseData.message);
-                // }
+                // Handle response data (using JSON parsing as intended originally)
+                const responseData = await response.json();
+
+                console.log('Data received:', responseData);
+                if (response.ok) {
+                    console.log('Login successful, attempting redirect...');
+                    localStorage.setItem('isLoggedIn', 'true'); // Set login status
+                    console.log('Before redirect');
+                    window.location.href = 'index.html'; // Use href for redirection
+                } else {
+                    console.log('Login failed:', responseData.message);
+                }
             }
             catch (error) {
                 console.error('Error during login:', error);
@@ -132,7 +119,6 @@
             }
         });
         console.log('Event listener attached.');
-
     </script>
 </body>
 </html>
