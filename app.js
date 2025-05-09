@@ -2,6 +2,9 @@ const express = require('express');
 const mongoose = require('mongoose');
 
 const app = express();
+
+// Serve static files from the 'public' directory
+app.use(express.static('public'));
 // Use JSON middleware
 app.use(express.json());
 const bcrypt = require('bcrypt');
@@ -100,20 +103,5 @@ app.post('/login', async (req, res) => {
   }
 });
 
-
-// Join Us route
-app.post('/joinus', async (req, res) => {
-  try {
-    const { name, email } = req.body;
-
-    // Create a new join us entry
-    const newJoinUs = new JoinUs({ name, email });
-    await newJoinUs.save();
-
-    res.status(201).json({ message: 'Join Us information saved successfully' });
-  } catch (error) {
-    res.status(500).json({ message: 'Server error', error });
-  }
-});
 
 // You will need to add a login route here later
