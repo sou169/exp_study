@@ -68,7 +68,9 @@
         const loginForm = document.getElementById("loginForm");
         console.log('Form element found:', loginForm);
 
-            event.preventDefault();
+        loginForm.addEventListener("submit", async function(event) {
+            console.log('Submit event triggered.');
+            event.preventDefault(); // Prevent the default form submission
             const email = document.getElementById("email").value;
             const password = document.getElementById("password").value;
 
@@ -86,20 +88,18 @@
                 console.log('Response status:', response.status); // Add console log for status
                 const responseData = await response.json(); // Use a different variable name to avoid conflict
                 console.log('Data received:', responseData); // Log the data object
-                emailErrorSpan.style.display = "none"; // Hide previous errors on new submission attempt
-                if (response.ok) {
+                if (response.ok) { 
+                    console.log('Login successful, attempting redirect...');
+                    localStorage.setItem('isLoggedIn', 'true'); // Set login status
                     window.location.replace('index.html');
                 } else { 
                     console.log('Login failed:', responseData.message); // Log specific error message
-                    emailErrorSpan.textContent = responseData.message || 'Login failed'; // Display backend message
-                    // Re-show the error element if it was removed for valid input previously
                 }
             }
             catch (error) {
-                console.error('Error during login:', error); // Log the full error object
-                emailErrorSpan.style.display = 'block'; // Show the error message
-            } 
-       
+                console.error('Error during login:', error); // Log the full error object             }
+            }
+        });
         console.log('Event listener attached.');
     </script>
 </body>
