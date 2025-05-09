@@ -3,8 +3,6 @@ const mongoose = require('mongoose');
 
 const app = express();
 
-// Serve static files from the 'public' directory
-app.use(express.static('public'));
 // Use JSON middleware
 app.use(express.json()); // for parsing application/json
 app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
@@ -44,6 +42,32 @@ function isAuthenticated(req, res, next) {
     next(); // User is authenticated, proceed to the next middleware or route handler
   } else {
  res.redirect('/login.html'); // User is not authenticated, redirect to login page
+
+app.get('/', isAuthenticated, (req, res) => {
+  res.sendFile(__dirname + '/public/index.html');
+});
+
+app.get('/index.html', isAuthenticated, (req, res) => {
+  res.sendFile(__dirname + '/public/index.html');
+});
+
+app.get('/study-material.html', isAuthenticated, (req, res) => {
+  res.sendFile(__dirname + '/public/study-material.html');
+});
+
+app.get('/video-lectures.html', isAuthenticated, (req, res) => {
+  res.sendFile(__dirname + '/public/video-lectures.html');
+});
+
+
+
+
+// Serve static files from the 'public' directory
+// This should come after the protected routes to avoid bypassing them
+app.use(express.static('public'));
+
+app.listen(port, () => {
+  console.log(`Server listening on port ${port}`);
   }
 });
 
@@ -114,22 +138,3 @@ app.post('/login', async (req, res) => {
     res.status(500).json({ message: 'Server error', error });
   }
 });
-
-// Apply isAuthenticated middleware to protected routes
-app.get('/', isAuthenticated, (req, res) => {
-  res.sendFile(__dirname + '/public/index.html');
-});
-
-app.get('/index.html', isAuthenticated, (req, res) => {
-  res.sendFile(__dirname + '/public/index.html');
-});
-
-app.get('/study-material.html', isAuthenticated, (req, res) => {
-  res.sendFile(__dirname + '/public/study-material.html');
-});
-
-app.get('/video-lectures.html', isAuthenticated, (req, res) => {
-  res.sendFile(__dirname + '/public/video-lectures.html');
-});
-
-// You will need to add a login route here later
