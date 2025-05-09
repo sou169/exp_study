@@ -99,6 +99,7 @@ app.post('/login', async (req, res) => {
 
     res.status(200).json({ message: 'Login successful' });
   } catch (error) {
+    console.error(error); // Log the full error to the server console
     res.status(500).json({ message: 'Server error', error });
   }
 });
