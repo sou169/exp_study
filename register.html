@@ -170,11 +170,9 @@
                 // Add basic email format check on submit before sending to backend
                 if (!emailInput.validity.valid) {
                     emailErrorSpan.textContent = 'Invalid email format';
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Password Mismatch',
-                    text: 'The password and confirm password fields do not match.'
-                });
+                    emailErrorSpan.style.display = 'block';
+                    return;
+                }
                 return;
             }
 
