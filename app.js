@@ -43,7 +43,7 @@ function isAuthenticated(req, res, next) {
   if (isLoggedIn) {
     next(); // User is authenticated, proceed to the next middleware or route handler
   } else {
-    res.redirect('/login.html'); // User is not authenticated, redirect to login page
+ res.redirect('/login.html'); // User is not authenticated, redirect to login page
   }
 });
 
@@ -115,5 +115,21 @@ app.post('/login', async (req, res) => {
   }
 });
 
+// Apply isAuthenticated middleware to protected routes
+app.get('/', isAuthenticated, (req, res) => {
+  res.sendFile(__dirname + '/public/index.html');
+});
+
+app.get('/index.html', isAuthenticated, (req, res) => {
+  res.sendFile(__dirname + '/public/index.html');
+});
+
+app.get('/study-material.html', isAuthenticated, (req, res) => {
+  res.sendFile(__dirname + '/public/study-material.html');
+});
+
+app.get('/video-lectures.html', isAuthenticated, (req, res) => {
+  res.sendFile(__dirname + '/public/video-lectures.html');
+});
 
 // You will need to add a login route here later
