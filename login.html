@@ -65,8 +65,7 @@
         <form id="loginForm" method="POST" action="/login">
             <input type="email" name="email" id="email" placeholder="Email" required autocomplete="email">
             <span class="email-error"></span>
-            <input type="password" name="password" id="password" placeholder="Password" required autocomplete="current-password">
-            <button type="button" onclick="document.getElementById('loginForm').submit();">Log In</button>
+            <input type="password" name="password" id="password" placeholder="Password" required autocomplete="current-password"><button type="submit">Log In</button>
         </form>
         <a href="register.html">Register</a>
         <a href="forgot_password.html">Forgot Password?</a>
@@ -75,30 +74,6 @@
         console.log('Script started');
         const loginForm = document.getElementById("loginForm");
         console.log('Form element found:', loginForm);
-
-        // Get references to email input and error span
-        const emailInput = document.getElementById("email");
-        const emailErrorSpan = document.querySelector(".email-error");
-
-        // Function to validate email format
-        function validateEmailFormat(email) {
-            // Basic email format regex
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            return emailRegex.test(email);
-        }
-
-        // Event listener for email input (e.g., on blur or input)
-        emailInput.addEventListener("input", function() {
-            if (emailInput.value.trim() === "") {
-                emailErrorSpan.style.display = "none";
-            } else if (!validateEmailFormat(emailInput.value)) {
-                emailErrorSpan.textContent = "Invalid email format";
-                emailErrorSpan.style.display = "block";
-            } else {
-                emailErrorSpan.style.display = "none"; // Hide if format is valid
-            }
-        });
-
 
         loginForm.addEventListener("submit", async function(event) { // Fix 1: Ensure this function's body is closed correctly
             console.log('Submit event triggered.');
@@ -128,7 +103,7 @@
                 } else { 
                     console.log('Login failed:', responseData.message); // Log specific error message
                     emailErrorSpan.textContent = responseData.message || 'Login failed'; // Display backend message
-                    emailErrorSpan.style.display = 'block'; // Show the error message
+                    // Re-show the error element if it was removed for valid input previously
                 }
             }
             catch (error) {
@@ -136,7 +111,7 @@
                 emailErrorSpan.textContent = 'An error occurred during login. Please try again.'; // Generic message for frontend errors
                 emailErrorSpan.style.display = 'block'; // Show the error message
             } 
-        }); // Fix 1: Closing the event listener function
+        });
         console.log('Event listener attached.');
     </script>
 </body>
