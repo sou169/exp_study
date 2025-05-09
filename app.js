@@ -67,7 +67,7 @@ app.use(express.static('public'));
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
   }
-});
+);
 
 // Serve static files from the 'public' directory
 // This should come after the protected routes to avoid bypassing them
