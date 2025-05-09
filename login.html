@@ -109,18 +109,18 @@
                 console.log(response);
                 console.log('response.ok:', response.ok);
                 console.log('Response status:', response.status);
-                const responseText = await response.text();
-                const responseData = JSON.parse(responseText);
+                // const responseText = await response.text();
+                // const responseData = JSON.parse(responseText);
                 console.log('Data received:', responseData);
-                if (response.ok) {
-                    debugger; // PAUSE EXECUTION AFTER JSON PARSING
-                    console.log('Login successful, attempting redirect...');
-                    console.log('Before redirect');
-                    localStorage.setItem('isLoggedIn', 'true'); // Set login status
-                    window.location.href = 'index.html';
-                } else {
-                    console.log('Login failed:', responseData.message);
-                }
+                // if (response.ok) {
+                //     debugger; // PAUSE EXECUTION AFTER JSON PARSING
+                //     console.log('Login successful, attempting redirect...');
+                //     console.log('Before redirect');
+                //     localStorage.setItem('isLoggedIn', 'true'); // Set login status
+                //     window.location.href = 'index.html';
+                // } else {
+                //     console.log('Login failed:', responseData.message);
+                // }
             }
             catch (error) {
                 console.error('Error during login:', error);
