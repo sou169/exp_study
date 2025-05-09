@@ -6,7 +6,8 @@ const app = express();
 // Serve static files from the 'public' directory
 app.use(express.static('public'));
 // Use JSON middleware
-app.use(express.json());
+app.use(express.json()); // for parsing application/json
+app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 const bcrypt = require('bcrypt');
 const port = 3000;
 const mongoURI = 'mongodb://localhost:27017/studybuddy';
