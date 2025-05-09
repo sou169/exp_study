@@ -110,6 +110,8 @@
                     body: JSON.stringify({ email, password }),
                 });
 
+                console.log(response); // Log the entire response object
+                console.log('response.ok:', response.ok); // Log the value of response.ok
                 console.log('Response status:', response.status); // Add console log for status
                 const responseData = await response.json(); // Use a different variable name to avoid conflict
                 console.log('Data received:', responseData); // Log the data object
