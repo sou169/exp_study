@@ -124,7 +124,7 @@
                     console.log('Login successful, attempting redirect...');
                     localStorage.setItem('isLoggedIn', 'true');
                     window.location.replace('index.html');
-                } else {
+                } else { 
                     console.log('Login failed:', responseData.message); // Log specific error message
                     emailErrorSpan.textContent = responseData.message || 'Login failed'; // Display backend message
                     emailErrorSpan.style.display = 'block'; // Show the error message
