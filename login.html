@@ -92,15 +92,16 @@
                     console.log('Login successful, attempting redirect...');
                     localStorage.setItem('isLoggedIn', 'true');
                     window.location.href = 'index.html';
-                } else {
+                } 
+                else {
                     console.log('Login failed:', data.message); // Log specific error message
                 Swal.fire({
                         icon: "error",
                         title: "Login Failed",
                         text: data.message || "Invalid email or password!" // Use message from backend if available
-                    });
                 });
-            } catch (error) {
+            } 
+            catch (error) {
                 console.error('Error during login:', error); // Log the full error object
                 Swal.fire({
                     icon: "error",
@@ -108,7 +109,6 @@
                     text: "An error occurred during login. Please try again." // Generic message for frontend errors
                 });
             }
-        });
     </script>
 </body>
 </html>
