@@ -13,6 +13,11 @@
             background: linear-gradient(135deg, #0b8457, #4caf50, #87d068);
             color: white;
             display: flex;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            /* The background gradient was already here, moved it down for clarity */
+            background: linear-gradient(135deg, #0b8457, #4caf50, #87d068);
             justify-content: center;
         }
         .login-container {
@@ -28,8 +33,9 @@
         .login-container input {
             width: 100%;
             padding: 10px;
-            margin: 10px 0;
+            margin: 10px 0 15px 0;
             border-radius: 5px;
+            box-sizing: border-box; /* Added for consistent padding calculation */
             border: none;
         }
         .login-container button {
@@ -57,8 +63,10 @@
     <div class="login-container">
         <h2>Login to Study-Buddy</h2>
         <form id="loginForm" method="POST" action="/login">
-            <input type="email" name="email" id="email" placeholder="Email" required autocomplete="email">            
-            <input type="password" name="password" id="password" placeholder="Password" required autocomplete="current-password"><button type="submit">Log In</button>
+            <input type="email" name="email" id="email" placeholder="Email" required autocomplete="email">
+            
+            <input type="password" name="password" id="password" placeholder="Password" required autocomplete="current-password">
+            <button type="submit">Log In</button>
         </form>
         <a href="register.html">Register</a>
         <a href="forgot_password.html">Forgot Password?</a>
@@ -97,7 +105,9 @@
                 }
             }
             catch (error) {
-                console.error('Error during login:', error); // Log the full error object             }
+                console.error('Error during login:', error); // Log the full error object
+                 // Optional: display a generic error message for fetch errors
+                 alert('An error occurred during login. Please try again.');
             }
         });
         console.log('Event listener attached.');
