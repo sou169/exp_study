@@ -109,8 +109,8 @@
                 console.log(response);
                 console.log('response.ok:', response.ok);
                 console.log('Response status:', response.status);
-                const responseData = await response.json();
-
+                const responseText = await response.text();
+                const responseData = JSON.parse(responseText);
                 console.log('Data received:', responseData);
                 if (response.ok) {
                     debugger; // PAUSE EXECUTION AFTER JSON PARSING
