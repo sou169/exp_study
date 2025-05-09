@@ -68,6 +68,7 @@
             <input type="email" name="email" id="email" placeholder="Email" required autocomplete="email">
             <input type="password" name="password" id="password" placeholder="Password" required autocomplete="current-password">
             <button type="submit">Log In</button>
+ <button type="button" id="loginButton">Log In</button>
         </form>
         <a href="register.html">Register</a>
         <a href="forgot_password.html">Forgot Password?</a>
@@ -78,11 +79,22 @@
         const loginForm = document.getElementById("loginForm");
         console.log('Form element found:', loginForm);
 
+        // Add a click listener to the button
+        const loginButton = loginForm.querySelector('button[type="submit"]');
+        loginButton.addEventListener("click", function(event) {
+            console.log('Button click event triggered');
+            event.preventDefault(); // Prevent the default button click behavior
+
+            // Programmatically submit the form
+            loginForm.submit();
+        });
+
+
         loginForm.addEventListener("submit", async function(event) {
-            debugger;
+            debugger; // PAUSE EXECUTION HERE - Still useful for debugging
             console.log('Submit event triggered');
 
-            event.preventDefault(); // Prevent the default form submission
+            event.preventDefault(); // Prevent the default form submission - This is still important!
             const email = document.getElementById("email").value;
             const password = document.getElementById("password").value;
 
@@ -116,6 +128,12 @@
             }
         });
         console.log('Event listener attached.');
+
+        loginButton.addEventListener("click", function(event) {
+ console.log('Login button clicked');
+ event.preventDefault(); // Prevent the default button click behavior
+ loginForm.submit(); // Manually trigger the form submission
+        });
     </script>
 </body>
 </html>
