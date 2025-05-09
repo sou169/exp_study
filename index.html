@@ -364,20 +364,31 @@
             document.getElementById('loginModal').classList.remove('active');
         }
     </script>
+
+    <script>
+        // This script ensures the navigation links are correctly displayed on page load
+        // based on the login status.
+        const isLoggedInOnInit = localStorage.getItem('isLoggedIn') === 'true';
+        updateNavLinks(isLoggedInOnInit);
+    </script>
     <script>
         const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
         const logoutLink = document.getElementById('logout-link');
         const loginLink = document.querySelector('a[href="login.html"]').parentElement;
         const signupLink = document.querySelector('a[href="register.html"]').parentElement;
-        const studyMaterialLink = document.querySelector('a[href="study-material.html"]').parentElement;
-        const videoLecturesLink = document.querySelector('a[href="video-lectures.html"]').parentElement;
 
-        if (isLoggedIn) {
+
+        // Function to update navigation links visibility
+        function updateNavLinks(loggedIn) {
+            if (loggedIn) {
             logoutLink.style.display = 'list-item';
             loginLink.style.display = 'none';
             signupLink.style.display = 'none';
         } else {
             logoutLink.style.display = 'none';
+            loginLink.style.display = 'list-item';
+            signupLink.style.display = 'list-item';
+        }
         }
 
         logoutLink.addEventListener('click', function(event) {

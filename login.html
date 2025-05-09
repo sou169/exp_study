@@ -67,44 +67,48 @@
         <a href="forgot_password.html">Forgot Password?</a>
     </div>
     <script>
- const loginForm = document.getElementById("loginForm");
+        const loginForm = document.getElementById("loginForm");
 
- loginForm.addEventListener("submit", async function(event) {
- event.preventDefault();
+        loginForm.addEventListener("submit", async function(event) {
+            event.preventDefault();
 
- const email = document.getElementById("email").value;
- const password = document.getElementById("password").value;
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
 
- try {
- const response = await fetch('/login', {
- method: 'POST',
- headers: {
- 'Content-Type': 'application/json',
- },
- body: JSON.stringify({ email, password }),
- });
+            try {
+                const response = await fetch('/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email, password }),
+                });
 
- const data = await response.json();
+                const data = await response.json();
+                console.log('Response received:', response); // Log the response object
+                console.log('Data received:', data); // Log the data object
 
- if (response.ok) {
- localStorage.setItem(&#39;isLoggedIn&#39;, &#39;true&#39;);
- window.location.href = 'index.html';
- } else {
+                if (response.ok) {
+                    console.log('Login successful, attempting redirect...');
+                    localStorage.setItem('isLoggedIn', 'true');
+                    window.location.href = 'index.html';
+                } else {
+                    console.log('Login failed:', data.message); // Log specific error message
+                Swal.fire({
+                        icon: "error",
+                        title: "Login Failed",
+                        text: data.message || "Invalid email or password!" // Use message from backend if available
+                    });
+                });
+            } catch (error) {
+                console.error('Error during login:', error); // Log the full error object
                 Swal.fire({
                     icon: "error",
-                    title: "Login Failed",
-                    text: "Invalid email or password!"
+                    title: "Error",
+                    text: "An error occurred during login. Please try again." // Generic message for frontend errors
                 });
             }
         });
- console.error('Error during login:', error);
- Swal.fire({
- icon: "error",
- title: "Error",
- text: "An error occurred during login."
- });
- }
- });
     </script>
 </body>
 </html>
