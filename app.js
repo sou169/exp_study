@@ -34,14 +34,12 @@ const JoinUs = mongoose.model('JoinUs', joinUsSchema);
 // Simple Admin Check Middleware (for demonstration purposes)
 // In a real application, implement proper session management or JWT with roles
 const isAdmin = (req, res, next) => {
-  // This is a placeholder. You would typically check a session variable or JWT claim.
-  // For this example, we assume the admin's email is sent in a header or body for simplicity.
-  // A more secure way involves authentication before hitting admin routes.
-  const adminEmail = req.headers['x-admin-email'] || req.body.adminEmail; // Example: Check header or body
-  if (adminEmail === 'admin@example.com') {
+  // Placeholder for admin check. Replace with your actual authentication/authorization logic.
+  // This assumes req.user is populated by preceding middleware and has a 'role' property.
+  if (req.user && req.user.role === 'admin') {
     next(); // User is admin, proceed
   } else {
-    res.status(403).json({ message: 'Access forbidden. Admins only.' });
+    res.status(403).json({ message: 'Access forbidden. Admins only.' }); // Or redirect to login
   }
 };
 
@@ -72,6 +70,7 @@ app.post('/joinus', async (req, res) => {
   }
 });
 
+// Basic login endpoint (needs session or JWT for state management)
 app.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -79,7 +78,11 @@ app.post('/login', async (req, res) => {
     if (!user || !(await bcrypt.compare(password, user.password))) {
       return res.status(400).json({ message: 'Invalid credentials' });
     }
-    res.status(200).json({ message: 'Login successful' });
+    // In a real application, you would establish a session or issue a JWT here.
+    // For demonstration, we'll simulate adding a 'user' object with a role for the admin check middleware.
+    // THIS IS NOT SECURE FOR PRODUCTION. Implement proper authentication.
+    req.user = { email: user.email, role: user.email === 'admin@example.com' ? 'admin' : 'user' }; // Simulate user object
+    res.status(200).json({ message: 'Login successful', user: { email: user.email, role: req.user.role } });
   } catch (error) {
     res.status(500).json({ message: 'Server error', error });
   }
