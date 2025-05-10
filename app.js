@@ -122,6 +122,22 @@ app.post('/admin/users', isAdmin, async (req, res) => {
   }
 });
 
+// Add a new user (might be redundant with /register, but useful for admin)
+app.post('/admin/users', isAdmin, async (req, res) => {
+  try {
+    const { name, email, password } = req.body;
+    const existingUser = await User.findOne({ email });
+    if (existingUser) return res.status(400).json({ message: 'User with that email already exists' });
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const newUser = new User({ name, email, password: hashedPassword });
+    await newUser.save();
+    res.status(201).json({ message: 'User added successfully', user: { _id: newUser._id, name: newUser.name, email: newUser.email } });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error adding user', error });
+  }
+});
+
 // Update a user
 app.put('/admin/users/:id', isAdmin, async (req, res) => {
   try {
@@ -174,3 +190,26 @@ app.delete('/admin/joinus/:id', isAdmin, async (req, res) => {
     res.status(500).json({ message: 'Server error deleting Join Us entry', error });
   }
 });
+
+// Add a new Join Us entry
+app.post('/admin/joinus', isAdmin, async (req, res) => {
+  try {
+    const { name, email } = req.body;
+    const newJoinUs = new JoinUs({ name, email });
+    await newJoinUs.save();
+    res.status(201).json({ message: 'Join Us entry added successfully', entry: newJoinUs });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error adding Join Us entry', error });
+  }
+});
+
+// Update a Join Us entry
+app.put('/admin/joinus/:id', isAdmin, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const updatedEntry = await JoinUs.findByIdAndUpdate(id, req.body, { new: true });
+    if (!updatedEntry) return res.status(404).json({ message: 'Join Us entry not found' });
+    res.status(200).json({ message: 'Join Us entry updated successfully', entry: updatedEntry });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error updating Join Us entry', error });
+  }

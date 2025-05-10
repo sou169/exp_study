@@ -3,14 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel</title>
-    <link rel="stylesheet" href="admin.css">
+    <title>Admin Panel</title>    
+ <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <h1>Admin Panel</h1>
 
     <section id="users-section">
         <h2>Users</h2>
+        <button id="add-user-button">Add User</button>
         <table>
             <thead>
                 <tr>
@@ -18,6 +19,8 @@
                     <th>Email</th>
                     <th>Role</th>
                     <th>Actions</th>
+                    <th class="edit-column">Edit Email</th>
+                    <th class="edit-column">Edit Role</th>
                 </tr>
             </thead>
             <tbody id="users-table-body">
@@ -26,8 +29,31 @@
         </table>
     </section>
 
+    <!-- Add User Form (Initially hidden) -->
+    <div id="add-user-form" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3>Add New User</h3>
+            <label for="new-user-email">Email:</label>
+            <input type="email" id="new-user-email"><br>
+            <label for="new-user-password">Password:</label>
+            <input type="password" id="new-user-password"><br>
+            <label for="new-user-role">Role:</label>
+            <input type="text" id="new-user-role"><br>
+            <button id="save-new-user">Add User</button>
+        </div>
+    </div>
+
+    <!-- Edit User Modal (Initially hidden) -->
+    <div id="edit-user-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3>Edit User</h3>
+            <!-- Edit fields will be populated by JavaScript -->
+        </div>
+    </div>
+
     <section id="joinus-section">
-        <h2>Join Us Entries</h2>
         <table>
             <thead>
                 <tr>
