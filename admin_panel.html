@@ -6,6 +6,7 @@
     <title>Admin Panel</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
+        /* General Styles from index.html */
         body {
             font-family: 'Poppins', sans-serif;
             background: linear-gradient(135deg, #0b8457, #4caf50, #87d068);
@@ -16,85 +17,105 @@
             scroll-behavior: smooth;
             position: relative;
         }
-
-        h1, h2 {
+        h1, h2, h3, p {
+            margin: 0;
+            padding: 0;
+        }
+        a {
+            text-decoration: none;
             color: white;
+        }
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Admin Panel Specific Styles */
+        .admin-container {
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px auto;
+            max-width: 1000px;
+        }
+
+        .admin-container h2 {
             text-align: center;
             margin-bottom: 20px;
-        }
-
-        section {
-            padding: 60px 20px;
-        }
-
-        section {
-            background-color: rgba(0, 0, 0, 0.5);
-            margin-bottom: 30px;
-            border-radius: 10px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
             color: white;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 15px;
-            color: white;
+            margin-bottom: 20px;
         }
 
         th, td {
+            border: 1px solid #ddd;
             padding: 10px;
             text-align: left;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
         }
 
         th {
             background-color: rgba(255, 255, 255, 0.2);
-            color: white;
-            font-weight: bold;
         }
 
-        tbody tr:nth-child(even) {
+        tr:nth-child(even) {
             background-color: rgba(255, 255, 255, 0.1);
         }
 
-        tbody tr:hover {
-            background-color: rgba(255, 255, 255, 0.15);
-        }
-
-        input[type="email"],
-        input[type="password"],
-        input[type="text"] {
-            padding: 8px;
-            margin-bottom: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.5);
+        .btn {
+            background-color: #4caf50; /* Green */
+            border: none;
+            color: white;
+            padding: 8px 16px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 14px;
+            margin: 4px 2px;
+            cursor: pointer;
             border-radius: 4px;
-            width: calc(100% - 16px); /* Full width minus padding */
+            transition: background-color 0.3s ease;
         }
 
+        .btn:hover {
+            background-color: #388e3c; /* Darker green */
+        }
+
+        .btn-delete {
+            background-color: #f44336; /* Red */
+        }
+
+        .btn-delete:hover {
+            background-color: #d32f2f; /* Darker red */
+        }
+
+        /* Modal Styles */
         .modal {
-            display: none; /* Hidden by default */
-            position: fixed; /* Stay in place */
-            z-index: 1; /* Sit on top */
+            display: none;
+            position: fixed;
+            z-index: 1;
             left: 0;
             top: 0;
-            width: 100%; /* Full width */
-            height: 100%; /* Full height */
-            overflow: auto; /* Enable scroll if needed */
-            background-color: rgb(0,0,0); /* Fallback color */
-            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
+            padding-top: 60px;
         }
 
         .modal-content {
             background-color: rgba(0, 0, 0, 0.8);
-            margin: 10% auto; /* Adjust margin */
+            margin: 5% auto;
             padding: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            width: 80%; /* Could be more or less, depending on screen size */
+            border: 1px solid #888;
+            width: 80%;
             max-width: 500px;
-            border-radius: 8px;
-            position: relative;
-            color: white;
+            border-radius: 10px;
         }
 
         .close {
@@ -102,105 +123,205 @@
             float: right;
             font-size: 28px;
             font-weight: bold;
-            cursor: pointer;
-            color: white;
         }
 
-        #add-user-button {
-            margin-bottom: 15px;
-            background-color: #4caf50;
+        .close:hover,
+        .close:focus {
             color: white;
-            border: none;
-            padding: 10px 15px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .modal-content input[type="text"],
+        .modal-content input[type="email"],
+        .modal-content input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
             border-radius: 4px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        #add-user-button:hover {
-            background-color: #388e3c;
-        }
-
-        button.delete-button {
-            background-color: #f44336;
-        }
-
-        button.delete-button:hover {
-            background-color: #d32f2f;
-        }
-
-        button.edit-button {
-            background-color: #ffeb3b;
+            box-sizing: border-box;
+            background-color: rgba(255, 255, 255, 0.8);
             color: #333;
         }
 
-        button.edit-button:hover {
-            background-color: #fbc02d;
+         .modal-content button {
+            background-color: #4caf50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            float: right;
+            margin-left: 5px;
         }
 
-        /* Styles for inline editing cells */
+        .modal-content button:hover {
+            background-color: #388e3c;
+        }
+
+         .modal-content label {
+             color: white;
+             display: block;
+             margin-bottom: 5px;
+         }
+
+         /* Add Form Styles */
+         .add-form-container {
+             margin-bottom: 30px;
+             padding: 20px;
+             background-color: rgba(255, 255, 255, 0.1);
+             border-radius: 8px;
+         }
+
+         .add-form-container h3 {
+             color: white;
+             margin-top: 0;
+             margin-bottom: 15px;
+         }
+
+         .add-form-container input[type="text"],
+         .add-form-container input[type="email"],
+         .add-form-container input[type="password"] {
+            width: calc(100% - 22px); /* Adjust for padding and border */
+            padding: 10px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            background-color: rgba(255, 255, 255, 0.8);
+            color: #333;
+         }
+
+         .add-form-container button {
+             background-color: #0b8457;
+             color: white;
+             padding: 10px 15px;
+             border: none;
+             border-radius: 4px;
+             cursor: pointer;
+             margin-top: 10px;
+         }
+
+         .add-form-container button:hover {
+             background-color: #086a45;
+         }
+
     </style>
 </head>
 <body>
-    <h1>Admin Panel</h1>
+    <div class="admin-container">
+        <h2>Admin Panel</h2>
 
-    <section id="users-section">
-        <h2>Users</h2>
-        <button id="add-user-button">Add User</button>
-        <table>
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Email</th>
-                    <th>Role</th>
-                </tr>
-            </thead>
-            <tbody id="users-table-body">
-                <!-- User data will be loaded here by JavaScript -->
-            </tbody>
-        </table>
-    </section>
-
-    <!-- Add User Form (Initially hidden) -->
-    <div id="add-user-form" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
+        <!-- Add New User Form -->
+        <div class="add-form-container">
             <h3>Add New User</h3>
-            <label for="new-user-email">Email:</label>
-            <input type="email" id="new-user-email"><br>
-            <label for="new-user-password">Password:</label>
-            <input type="password" id="new-user-password"><br>
-            <label for="new-user-role">Role:</label>
-            <input type="text" id="new-user-role"><br>
-            <button id="save-new-user">Add User</button>
+            <form id="newUserForm">
+                <label for="newUserName">Name:</label>
+                <input type="text" id="newUserName" required>
+                <label for="newUserEmail">Email:</label>
+                <input type="email" id="newUserEmail" required>
+                <label for="newUserPassword">Password:</label>
+                <input type="password" id="newUserPassword" required>
+                <label for="newUserRole">Role:</label>
+                <input type="text" id="newUserRole" value="user"> <!-- Default role -->
+                <button type="submit">Add User</button>
+            </form>
         </div>
+
+
+        <!-- Users Section -->
+        <section id="users">
+            <h2>Users</h2>
+            <table id="usersTable">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- User data will be populated here by JavaScript -->
+                </tbody>
+            </table>
+        </section>
+
+         <!-- Add New Join Us Entry Form -->
+         <div class="add-form-container">
+            <h3>Add New Join Us Entry</h3>
+            <form id="newJoinUsForm">
+                <label for="newJoinUsName">Name:</label>
+                <input type="text" id="newJoinUsName" required>
+                <label for="newJoinUsEmail">Email:</label>
+                <input type="email" id="newJoinUsEmail" required>
+                 <label for="newJoinUsMessage">Message:</label>
+                <input type="text" id="newJoinUsMessage">
+                <button type="submit">Add Entry</button>
+            </form>
+        </div>
+
+        <!-- Join Us Section -->
+        <section id="joinUs">
+            <h2>Join Us Entries</h2>
+            <table id="joinUsTable">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Email</th>
+                        <th>Name</th>
+                        <th>Message</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Join Us data will be populated here by JavaScript -->
+                </tbody>
+            </table>
+        </section>
     </div>
 
-    <!-- Edit User Modal (Initially hidden) -->
-    <div id="edit-user-modal" class="modal">
+    <!-- User Edit Modal -->
+    <div id="userModal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
-            <h3>Edit User</h3>
-            <!-- Edit fields will be populated by JavaScript -->
+            <h2>Edit User</h2>
+            <form id="userForm">
+                <input type="hidden" id="userId">
+                <label for="userEmail">Email:</label>
+                <input type="email" id="userEmail" required>
+                 <label for="userName">Name:</label>
+                <input type="text" id="userName" required>
+                <label for="userRole">Role:</label>
+                <input type="text" id="userRole" required>
+                 <label for="userPassword">Password (leave blank to keep current):</label>
+                <input type="password" id="userPassword">
+                <button type="submit">Save Changes</button>
+            </form>
         </div>
     </div>
 
-    <section id="joinus-section">
-        <table>
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Email</th>
-                    <th>Name</th>
-                    <th>Message</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody id="joinus-table-body">
-                <!-- Join Us data will be loaded here by JavaScript -->
-            </tbody>
-        </table>
-    </section>
+    <!-- Join Us Edit Modal -->
+    <div id="joinUsModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Edit Join Us Entry</h2>
+            <form id="joinUsForm">
+                <input type="hidden" id="joinUsId">
+                <label for="joinUsEmail">Email:</label>
+                <input type="email" id="joinUsEmail" required>
+                <label for="joinUsName">Name:</label>
+                <input type="text" id="joinUsName" required>
+                <label for="joinUsMessage">Message:</label>
+                <input type="text" id="joinUsMessage">
+                <button type="submit">Save Changes</button>
+            </form>
+        </div>
+    </div>
+
 
     <script src="admin_panel.js"></script>
 </body>
