@@ -31,6 +31,20 @@ const joinUsSchema = new mongoose.Schema({
 const User = mongoose.model('User', userSchema);
 const JoinUs = mongoose.model('JoinUs', joinUsSchema);
 
+// Simple Admin Check Middleware (for demonstration purposes)
+// In a real application, implement proper session management or JWT with roles
+const isAdmin = (req, res, next) => {
+  // This is a placeholder. You would typically check a session variable or JWT claim.
+  // For this example, we assume the admin's email is sent in a header or body for simplicity.
+  // A more secure way involves authentication before hitting admin routes.
+  const adminEmail = req.headers['x-admin-email'] || req.body.adminEmail; // Example: Check header or body
+  if (adminEmail === 'admin@example.com') {
+    next(); // User is admin, proceed
+  } else {
+    res.status(403).json({ message: 'Access forbidden. Admins only.' });
+  }
+};
+
 // Routes
 app.post('/register', async (req, res) => {
   try {
@@ -73,4 +87,87 @@ app.post('/login', async (req, res) => {
 
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
+});
+
+// Admin Routes (Protected)
+
+// --- User Management ---
+
+// Get all users
+app.get('/admin/users', isAdmin, async (req, res) => {
+  try {
+    const users = await User.find({}, '-password'); // Exclude password
+    res.status(200).json(users);
+  } catch (error) {
+    res.status(500).json({ message: 'Server error fetching users', error });
+  }
+});
+
+// Add a new user (might be redundant with /register, but useful for admin)
+app.post('/admin/users', isAdmin, async (req, res) => {
+  try {
+    const { name, email, password } = req.body;
+    const existingUser = await User.findOne({ email });
+    if (existingUser) return res.status(400).json({ message: 'User with that email already exists' });
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const newUser = new User({ name, email, password: hashedPassword });
+    await newUser.save();
+    res.status(201).json({ message: 'User added successfully', user: { _id: newUser._id, name: newUser.name, email: newUser.email } });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error adding user', error });
+  }
+});
+
+// Update a user
+app.put('/admin/users/:id', isAdmin, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name, email, password } = req.body;
+    const updateData = { name, email };
+    if (password) {
+      updateData.password = await bcrypt.hash(password, 10);
+    }
+    const updatedUser = await User.findByIdAndUpdate(id, updateData, { new: true, select: '-password' }); // Exclude password
+    if (!updatedUser) return res.status(404).json({ message: 'User not found' });
+    res.status(200).json({ message: 'User updated successfully', user: updatedUser });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error updating user', error });
+  }
+});
+
+// Delete a user
+app.delete('/admin/users/:id', isAdmin, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const deletedUser = await User.findByIdAndDelete(id);
+    if (!deletedUser) return res.status(404).json({ message: 'User not found' });
+    res.status(200).json({ message: 'User deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error deleting user', error });
+  }
+});
+
+// --- Join Us Management ---
+
+// Get all Join Us entries
+app.get('/admin/joinus', isAdmin, async (req, res) => {
+  try {
+    const joinusEntries = await JoinUs.find();
+    res.status(200).json(joinusEntries);
+  } catch (error) {
+    res.status(500).json({ message: 'Server error fetching Join Us entries', error });
+  }
+});
+
+// Delete a Join Us entry
+app.delete('/admin/joinus/:id', isAdmin, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const deletedEntry = await JoinUs.findByIdAndDelete(id);
+    if (!deletedEntry) return res.status(404).json({ message: 'Join Us entry not found' });
+    res.status(200).json({ message: 'Join Us entry deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error deleting Join Us entry', error });
+  }
 });
